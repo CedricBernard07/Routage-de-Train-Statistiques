@@ -52,7 +52,8 @@ function renderStats(items) {
     table.appendChild(head);
     items.forEach((item) => {
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.analyticCode}</td><td>${item.group ?? '-'}</td><td>${item.totalDistanceKm.toFixed(2)}</td>`;
+        const totalDistance = item.totalDistanceKm.toFixed(2);
+        row.innerHTML = `<td>${item.analyticCode}</td><td>${item.group ?? '-'}</td><td>${totalDistance}</td>`;
         table.appendChild(row);
     });
     statsContainer.appendChild(table);
