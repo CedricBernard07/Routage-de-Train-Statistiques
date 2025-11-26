@@ -33,8 +33,11 @@ try {
         $from = trim((string) ($body['fromStationId'] ?? ''));
         $to = trim((string) ($body['toStationId'] ?? ''));
         $analytic = trim((string) ($body['analyticCode'] ?? ''));
+        if ($analytic === '') {
+            $analytic = 'STANDARD';
+        }
 
-        if ($from === '' || $to === '' || $analytic === '') {
+        if ($from === '' || $to === '') {
             sendError(400, 'Paramètres manquants');
         }
 
