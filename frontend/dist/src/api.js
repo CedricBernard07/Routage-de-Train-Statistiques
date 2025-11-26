@@ -1,5 +1,7 @@
 import stations from '../data/stations.json' assert { type: 'json' };
+// adresse de l'API backend
 const API_BASE = 'http://localhost:8080/api/v1';
+//Route 1 : obtention d'un trajet entre deux stations
 export async function createRoute(payload) {
     const response = await fetch(`${API_BASE}/routes`, {
         method: 'POST',
@@ -12,6 +14,7 @@ export async function createRoute(payload) {
     }
     return response.json();
 }
+// Route 2 : obtention des statistiques sur les distances des trajets
 export async function fetchStats(query = {}) {
     const params = new URLSearchParams();
     if (query.from)
@@ -28,6 +31,7 @@ export async function fetchStats(query = {}) {
     }
     return response.json();
 }
+// pour obtenir la liste des stations disponibles
 export function listStations() {
     return stations.map((station) => station.shortName);
 }

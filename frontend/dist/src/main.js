@@ -1,8 +1,9 @@
 import { createRoute, fetchStats, listStations } from './api';
 const stations = listStations();
 const routeForm = document.getElementById('route-form');
-const fromSelect = document.getElementById('from');
-const toSelect = document.getElementById('to');
+const fromInput = document.getElementById('from');
+const toInput = document.getElementById('to');
+const stationDataList = document.getElementById('stations-list');
 const analyticInput = document.getElementById('analytic');
 const messageBox = document.getElementById('message');
 const statsContainer = document.getElementById('stats');
@@ -10,18 +11,15 @@ const statsForm = document.getElementById('stats-form');
 const fromDateInput = document.getElementById('from-date');
 const toDateInput = document.getElementById('to-date');
 const groupBySelect = document.getElementById('group-by');
+// fonction pour peupler les options de la liste de suggestions de stations
 function populateOptions() {
     stations.forEach((station) => {
-        const optionFrom = document.createElement('option');
-        optionFrom.value = station;
-        optionFrom.textContent = station;
-        fromSelect.appendChild(optionFrom);
-        const optionTo = document.createElement('option');
-        optionTo.value = station;
-        optionTo.textContent = station;
-        toSelect.appendChild(optionTo);
+        const option = document.createElement('option');
+        option.value = station;
+        stationDataList.appendChild(option);
     });
 }
+// fonction pour afficher les contenus du message
 function setMessage(message) {
     if (!message) {
         messageBox.textContent = '';
@@ -31,6 +29,7 @@ function setMessage(message) {
     messageBox.textContent = message.text;
     messageBox.className = message.type;
 }
+// fonction pour afficher les statistiques
 function renderStats(items) {
     statsContainer.innerHTML = '';
     if (items.length === 0) {
@@ -53,8 +52,8 @@ routeForm?.addEventListener('submit', async (event) => {
     setMessage(null);
     try {
         const result = await createRoute({
-            fromStationId: fromSelect.value,
-            toStationId: toSelect.value,
+            fromStationId: fromInput.value.trim(),
+            toStationId: toInput.value.trim(),
             analyticCode: analyticInput.value,
         });
         setMessage({ type: 'success', text: `Distance calculée: ${result.distanceKm} km via ${result.path.join(' -> ')}` });

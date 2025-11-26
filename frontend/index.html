@@ -56,9 +56,10 @@
     <h1>Routage de train &amp; statistiques</h1>
     <form id="route-form">
       <label for="from">Station de départ</label>
-      <select id="from" required></select>
+      <input id="from" list="stations-list" required placeholder="Saisissez la station de départ" />
       <label for="to">Station d'arrivée</label>
-      <select id="to" required></select>
+      <input id="to" list="stations-list" required placeholder="Saisissez la station d'arrivée" />
+      <datalist id="stations-list"></datalist>
       <label for="analytic">Code analytique</label>
       <input id="analytic" required placeholder="ANA-001" />
       <button type="submit">Calculer</button>
