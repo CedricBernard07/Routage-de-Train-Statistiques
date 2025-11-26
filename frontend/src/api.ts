@@ -1,11 +1,13 @@
 import stations from '../data/stations.json' assert { type: 'json' };
 
+// format de la requête pour un trajet
 type RouteRequest = {
   fromStationId: string;
   toStationId: string;
   analyticCode: string;
 };
 
+// format de la réponse pour un trajet
 type RouteResponse = {
   id: string;
   fromStationId: string;
@@ -16,12 +18,14 @@ type RouteResponse = {
   createdAt: string;
 };
 
+// format de la requête pour les statistiques
 type StatsQuery = {
   from?: string;
   to?: string;
   groupBy?: 'day' | 'month' | 'year' | 'none';
 };
 
+// format de la réponse pour les statistiques
 type StatsResponse = {
   from?: string | null;
   to?: string | null;
@@ -29,6 +33,7 @@ type StatsResponse = {
   items: { analyticCode: string; totalDistanceKm: number; group?: string | null }[];
 };
 
+// adresse de l'API backend
 const API_BASE = 'http://localhost:8080/api/v1';
 
 //Route 1 : obtention d'un trajet entre deux stations
@@ -61,6 +66,7 @@ export async function fetchStats(query: StatsQuery = {}): Promise<StatsResponse>
   return response.json();
 }
 
+// pour obtenir la liste des stations disponibles
 export function listStations() {
   return stations.map((station) => station.shortName);
 }

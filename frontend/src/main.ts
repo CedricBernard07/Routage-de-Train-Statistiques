@@ -15,6 +15,7 @@ const fromDateInput = document.getElementById('from-date') as HTMLInputElement;
 const toDateInput = document.getElementById('to-date') as HTMLInputElement;
 const groupBySelect = document.getElementById('group-by') as HTMLSelectElement;
 
+// fonction pour peupler les options des selects de stations
 function populateOptions() {
   stations.forEach((station) => {
     const optionFrom = document.createElement('option');
@@ -29,6 +30,7 @@ function populateOptions() {
   });
 }
 
+// fonction pour afficher les contenus du message
 function setMessage(message: Message) {
   if (!message) {
     messageBox.textContent = '';
@@ -39,6 +41,7 @@ function setMessage(message: Message) {
   messageBox.className = message.type;
 }
 
+// fonction pour afficher les statistiques
 function renderStats(items: { analyticCode: string; totalDistanceKm: number; group?: string | null }[]) {
   statsContainer.innerHTML = '';
   if (items.length === 0) {
