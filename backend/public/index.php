@@ -24,6 +24,17 @@ if (!str_starts_with($path, '/api/v1')) {
 $path = substr($path, strlen('/api/v1'));
 
 try {
+    if ($method === 'GET' && ($path === '' || $path === '/')) {
+        sendJson(200, [
+            'name' => 'Train routing API',
+            'version' => 'v1',
+            'availableEndpoints' => [
+                'POST /api/v1/routes',
+                'GET /api/v1/stats/distances',
+            ],
+        ]);
+    }
+
     if ($method === 'POST' && $path === '/routes') {
         $body = json_decode(file_get_contents('php://input'), true);
         if (!is_array($body)) {
