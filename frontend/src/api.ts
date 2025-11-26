@@ -18,6 +18,13 @@ type RouteResponse = {
   createdAt: string;
 };
 
+type DistanceResponse = {
+  fromStationId: string;
+  toStationId: string;
+  distanceKm: number;
+  path: string[];
+};
+
 // format de la requête pour les statistiques
 type StatsQuery = {
   from?: string;
@@ -36,6 +43,17 @@ type StatsResponse = {
 // adresse de l'API backend
 const API_BASE = 'http://localhost:8080/api/v1';
 const DEFAULT_ANALYTIC_CODE = 'STANDARD';
+
+// Route dédiée pour récupérer la distance entre deux stations sans enregistrer le trajet
+export async function fetchDistance(fromStationId: string, toStationId: string): Promise<DistanceResponse> {
+  const params = new URLSearchParams({ from: fromStationId, to: toStationId });
+  const response = await fetch(`${API_BASE}/distance?${params.toString()}`);
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message ?? 'Erreur lors de la récupération de la distance');
+  }
+  return response.json();
+}
 
 //Route 1 : obtention d'un trajet entre deux stations
 export async function createRoute(payload: RouteRequest): Promise<RouteResponse> {
