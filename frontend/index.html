@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Routage de train</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        background: #f8f9fa;
+      }
+      form,
+      section {
+        background: #fff;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      select,
+      input {
+        padding: 0.5rem;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        background: #0b7285;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+      }
+      #message.success {
+        color: #2f9e44;
+      }
+      #message.error {
+        color: #c92a2a;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Routage de train &amp; statistiques</h1>
+    <form id="route-form">
+      <label for="from">Station de départ</label>
+      <select id="from" required></select>
+      <label for="to">Station d'arrivée</label>
+      <select id="to" required></select>
+      <label for="analytic">Code analytique</label>
+      <input id="analytic" required placeholder="ANA-001" />
+      <button type="submit">Calculer</button>
+      <div id="message"></div>
+    </form>
+
+    <section>
+      <h2>Statistiques par code analytique</h2>
+      <form id="stats-form">
+        <label for="from-date">Date de début (optionnel)</label>
+        <input id="from-date" type="date" />
+        <label for="to-date">Date de fin (optionnel)</label>
+        <input id="to-date" type="date" />
+        <label for="group-by">Groupement</label>
+        <select id="group-by">
+          <option value="none">Aucun</option>
+          <option value="day">Jour</option>
+          <option value="month">Mois</option>
+          <option value="year">Année</option>
+        </select>
+        <button type="submit">Actualiser</button>
+      </form>
+      <div id="stats">Chargement...</div>
+    </section>
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>
