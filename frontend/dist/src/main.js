@@ -11,18 +11,6 @@ const fromDateInput = document.getElementById('from-date');
 const toDateInput = document.getElementById('to-date');
 const groupBySelect = document.getElementById('group-by');
 function populateOptions() {
-    const placeholderFrom = document.createElement('option');
-    placeholderFrom.value = '';
-    placeholderFrom.textContent = 'Choisissez la station de départ';
-    placeholderFrom.disabled = true;
-    placeholderFrom.selected = true;
-    fromSelect.appendChild(placeholderFrom);
-    const placeholderTo = document.createElement('option');
-    placeholderTo.value = '';
-    placeholderTo.textContent = "Choisissez la station d'arrivée";
-    placeholderTo.disabled = true;
-    placeholderTo.selected = true;
-    toSelect.appendChild(placeholderTo);
     stations.forEach((station) => {
         const optionFrom = document.createElement('option');
         optionFrom.value = station;
@@ -64,12 +52,6 @@ routeForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setMessage(null);
     try {
-        if (!fromSelect.value || !toSelect.value) {
-            throw new Error("Veuillez sélectionner les stations de départ et d'arrivée.");
-        }
-        if (fromSelect.value === toSelect.value) {
-            throw new Error("Les stations de départ et d'arrivée doivent être différentes.");
-        }
         const result = await createRoute({
             fromStationId: fromSelect.value,
             toStationId: toSelect.value,

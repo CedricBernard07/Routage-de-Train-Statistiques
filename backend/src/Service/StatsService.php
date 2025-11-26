@@ -4,6 +4,7 @@ namespace App\Service;
 use App\Infrastructure\RouteRepository;
 use DateTimeImmutable;
 
+//classe permettant de faire des statistiques (trajets) sur les routes
 class StatsService
 {
     public function __construct(private RouteRepository $repository)
@@ -17,7 +18,6 @@ class StatsService
         $buckets = [];
         foreach ($routes as $route) {
             $created = new DateTimeImmutable($route['createdAt']);
-            // Filtrage temporel optionnel : bornes inclusives sur les dates fournies.
             if ($from && $created < $from) {
                 continue;
             }
@@ -25,7 +25,6 @@ class StatsService
                 continue;
             }
 
-            // Clé d'agrégation = code analytique + tranche temporelle (jour/mois/année/none).
             $groupKey = $this->groupKey($created, $groupBy);
             $key = $route['analyticCode'] . '|' . $groupKey;
             if (!isset($buckets[$key])) {

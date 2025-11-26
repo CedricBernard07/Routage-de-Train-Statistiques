@@ -7,7 +7,6 @@ class StationRepository
 
     public function __construct(string $stationFile)
     {
-        // Charge en mémoire le référentiel complet des gares par nom court.
         $this->stations = $this->loadStations($stationFile);
     }
 

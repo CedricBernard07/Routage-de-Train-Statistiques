@@ -7,7 +7,6 @@ use App\Infrastructure\StationRepository;
 use App\Service\RoutingService;
 use App\Service\StatsService;
 
-// Dépendances simples instanciées au démarrage : lecture des stations et des distances en mémoire.
 $stationRepo = new StationRepository(__DIR__ . '/../data/stations.json');
 $graph = new DistanceGraph(__DIR__ . '/../data/distances.json');
 $routeRepo = new RouteRepository(__DIR__ . '/../storage/routes.json');
@@ -18,7 +17,6 @@ header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// On s'assure de ne servir que les routes de l'API versionnée.
 if (!str_starts_with($path, '/api/v1')) {
     sendError(404, 'Not found');
 }
@@ -26,7 +24,6 @@ if (!str_starts_with($path, '/api/v1')) {
 $path = substr($path, strlen('/api/v1'));
 
 try {
-    // Création d'un nouveau trajet et calcul de la distance la plus courte.
     if ($method === 'POST' && $path === '/routes') {
         $body = json_decode(file_get_contents('php://input'), true);
         if (!is_array($body)) {
@@ -57,7 +54,6 @@ try {
         sendJson(201, $result);
     }
 
-    // Récupération des statistiques agrégées par code analytique et période.
     if ($method === 'GET' && $path === '/stats/distances') {
         $from = $_GET['from'] ?? null;
         $to = $_GET['to'] ?? null;

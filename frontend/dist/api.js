@@ -1,5 +1,7 @@
 import stations from '../data/stations.json';
 const API_BASE = 'http://localhost:8080/api/v1';
+
+// Route 1 : obtention d'un trajet entre deux stations
 export async function createRoute(payload) {
     const response = await fetch(`${API_BASE}/routes`, {
         method: 'POST',
@@ -11,6 +13,8 @@ export async function createRoute(payload) {
     }
     return response.json();
 }
+
+// Route 2 : obtention des statistiques sur les distances des trajets
 export async function fetchStats() {
     const response = await fetch(`${API_BASE}/stats/distances`);
     if (!response.ok) {

@@ -5,7 +5,6 @@ class RouteRepository
 {
     public function __construct(private string $storageFile)
     {
-        // Le stockage est un simple fichier JSON pour conserver l'historique des trajets.
         if (!file_exists($this->storageFile)) {
             file_put_contents($this->storageFile, json_encode([]));
         }
