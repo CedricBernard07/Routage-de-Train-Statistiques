@@ -31,6 +31,7 @@ type StatsResponse = {
 
 const API_BASE = 'http://localhost:8080/api/v1';
 
+//Route 1 : obtention d'un trajet entre deux stations
 export async function createRoute(payload: RouteRequest): Promise<RouteResponse> {
   const response = await fetch(`${API_BASE}/routes`, {
     method: 'POST',
@@ -44,6 +45,7 @@ export async function createRoute(payload: RouteRequest): Promise<RouteResponse>
   return response.json();
 }
 
+// Route 2 : obtention des statistiques sur les distances des trajets
 export async function fetchStats(query: StatsQuery = {}): Promise<StatsResponse> {
   const params = new URLSearchParams();
   if (query.from) params.set('from', query.from);

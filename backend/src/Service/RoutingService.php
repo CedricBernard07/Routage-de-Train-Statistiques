@@ -4,6 +4,7 @@ namespace App\Service;
 use App\Infrastructure\DistanceGraph;
 use App\Infrastructure\StationRepository;
 
+//classe pour obtenir les itinéraires entre deux stations
 class RoutingService
 {
     public function __construct(
@@ -12,6 +13,7 @@ class RoutingService
     ) {
     }
 
+    //calcule l'itinéraire le plus court entre deux stations
     public function calculate(string $from, string $to): array
     {
         if (!$this->stations->exists($from) || !$this->stations->exists($to)) {
@@ -24,6 +26,7 @@ class RoutingService
         return $result;
     }
 
+    //algorithme de Dijkstra pour trouver le chemin le plus court entre deux nœuds
     private function dijkstra(string $source, string $target): ?array
     {
         $dist = [];

@@ -4,6 +4,7 @@ namespace App\Service;
 use App\Infrastructure\RouteRepository;
 use DateTimeImmutable;
 
+//classe permettant de faire des statistiques (trajets) sur les routes
 class StatsService
 {
     public function __construct(private RouteRepository $repository)
