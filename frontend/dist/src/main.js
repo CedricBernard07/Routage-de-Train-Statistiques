@@ -1,10 +1,9 @@
-import { createRoute, fetchStats, listStations } from './api';
+import { createRoute, fetchStats, listStations } from './api.js';
 const stations = listStations();
 const routeForm = document.getElementById('route-form');
 const fromInput = document.getElementById('from');
 const toInput = document.getElementById('to');
 const stationDataList = document.getElementById('stations-list');
-const analyticInput = document.getElementById('analytic');
 const messageBox = document.getElementById('message');
 const statsContainer = document.getElementById('stats');
 const statsForm = document.getElementById('stats-form');
@@ -54,7 +53,6 @@ routeForm?.addEventListener('submit', async (event) => {
         const result = await createRoute({
             fromStationId: fromInput.value.trim(),
             toStationId: toInput.value.trim(),
-            analyticCode: analyticInput.value,
         });
         setMessage({ type: 'success', text: `Distance calculée: ${result.distanceKm} km via ${result.path.join(' -> ')}` });
         await loadStats();

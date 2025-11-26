@@ -1,12 +1,13 @@
 import stations from '../data/stations.json' assert { type: 'json' };
 // adresse de l'API backend
 const API_BASE = 'http://localhost:8080/api/v1';
+const DEFAULT_ANALYTIC_CODE = 'STANDARD';
 //Route 1 : obtention d'un trajet entre deux stations
 export async function createRoute(payload) {
     const response = await fetch(`${API_BASE}/routes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, analyticCode: payload.analyticCode?.trim() || DEFAULT_ANALYTIC_CODE }),
     });
     if (!response.ok) {
         const error = await response.json().catch(() => ({}));
