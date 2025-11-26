@@ -1,4 +1,4 @@
-import { createRoute, fetchStats, listStations } from './api.js';
+import { createRoute, fetchDistance, fetchStats, listStations } from './api.js';
 
 type Message = { type: 'success' | 'error'; text: string } | null;
 
@@ -9,6 +9,7 @@ const fromInput = document.getElementById('from') as HTMLInputElement;
 const toInput = document.getElementById('to') as HTMLInputElement;
 const stationDataList = document.getElementById('stations-list') as HTMLDataListElement;
 const messageBox = document.getElementById('message') as HTMLDivElement;
+const distanceBox = document.getElementById('distance-result') as HTMLDivElement;
 const statsContainer = document.getElementById('stats') as HTMLDivElement;
 const statsForm = document.getElementById('stats-form') as HTMLFormElement;
 const fromDateInput = document.getElementById('from-date') as HTMLInputElement;
@@ -33,6 +34,16 @@ function setMessage(message: Message) {
   }
   messageBox.textContent = message.text;
   messageBox.className = message.type;
+}
+
+function renderDistance(distanceKm: number, path: string[]) {
+  if (!distanceBox) return;
+  distanceBox.innerHTML = '';
+  const distance = document.createElement('p');
+  distance.textContent = `Distance: ${distanceKm.toFixed(2)} km`;
+  const itinerary = document.createElement('p');
+  itinerary.textContent = `Itinéraire: ${path.join(' -> ')}`;
+  distanceBox.append(distance, itinerary);
 }
 
 // fonction pour afficher les statistiques
@@ -60,11 +71,14 @@ routeForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   setMessage(null);
   try {
-    const result = await createRoute({
-      fromStationId: fromInput.value.trim(),
-      toStationId: toInput.value.trim(),
-    });
-    setMessage({ type: 'success', text: `Distance calculée: ${result.distanceKm} km via ${result.path.join(' -> ')}` });
+    const from = fromInput.value.trim();
+    const to = toInput.value.trim();
+
+    const distance = await fetchDistance(from, to);
+    renderDistance(distance.distanceKm, distance.path);
+    setMessage({ type: 'success', text: 'Distance calculée avec succès' });
+
+    await createRoute({ fromStationId: from, toStationId: to });
     await loadStats();
   } catch (error) {
     setMessage({ type: 'error', text: (error as Error).message });

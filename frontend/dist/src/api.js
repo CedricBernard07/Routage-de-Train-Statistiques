@@ -2,6 +2,16 @@ import stations from '../data/stations.json' assert { type: 'json' };
 // adresse de l'API backend
 const API_BASE = 'http://localhost:8080/api/v1';
 const DEFAULT_ANALYTIC_CODE = 'STANDARD';
+// Route dédiée pour récupérer la distance entre deux stations sans enregistrer le trajet
+export async function fetchDistance(fromStationId, toStationId) {
+    const params = new URLSearchParams({ from: fromStationId, to: toStationId });
+    const response = await fetch(`${API_BASE}/distance?${params.toString()}`);
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message ?? 'Erreur lors de la récupération de la distance');
+    }
+    return response.json();
+}
 //Route 1 : obtention d'un trajet entre deux stations
 export async function createRoute(payload) {
     const response = await fetch(`${API_BASE}/routes`, {

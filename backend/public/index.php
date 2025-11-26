@@ -29,9 +29,28 @@ try {
             'name' => 'Train routing API',
             'version' => 'v1',
             'availableEndpoints' => [
+                'GET /api/v1/distance',
                 'POST /api/v1/routes',
                 'GET /api/v1/stats/distances',
             ],
+        ]);
+    }
+
+    if ($method === 'GET' && $path === '/distance') {
+        $from = trim((string) ($_GET['from'] ?? ''));
+        $to = trim((string) ($_GET['to'] ?? ''));
+
+        if ($from === '' || $to === '') {
+            sendError(400, 'Paramètres manquants');
+        }
+
+        $route = $routing->calculate($from, $to);
+
+        sendJson(200, [
+            'fromStationId' => $from,
+            'toStationId' => $to,
+            'distanceKm' => $route['distanceKm'],
+            'path' => $route['path'],
         ]);
     }
 
