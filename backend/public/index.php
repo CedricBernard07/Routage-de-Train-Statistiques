@@ -14,8 +14,16 @@ $routing = new RoutingService($graph, $stationRepo);
 $stats = new StatsService($routeRepo);
 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($method === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
 
 if (!str_starts_with($path, '/api/v1')) {
     sendError(404, 'Not found');
