@@ -1,4 +1,14 @@
-import stations from '../data/stations.json' assert { type: 'json' };
+let stationsCache = null;
+async function loadStations() {
+    if (!stationsCache) {
+        const response = await fetch(new URL('../data/stations.json', import.meta.url));
+        if (!response.ok) {
+            throw new Error('Impossible de charger la liste des gares');
+        }
+        stationsCache = response.json();
+    }
+    return stationsCache;
+}
 // adresse de l'API backend
 const API_BASE = 'http://localhost:8080/api/v1';
 const DEFAULT_ANALYTIC_CODE = 'STANDARD';
@@ -43,6 +53,7 @@ export async function fetchStats(query = {}) {
     return response.json();
 }
 // pour obtenir la liste des stations disponibles
-export function listStations() {
+export async function listStations() {
+    const stations = await loadStations();
     return stations.map((station) => station.shortName);
 }

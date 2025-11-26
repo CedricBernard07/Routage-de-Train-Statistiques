@@ -1,4 +1,17 @@
-import stations from '../data/stations.json' assert { type: 'json' };
+type Station = { shortName: string };
+
+let stationsCache: Promise<Station[]> | null = null;
+
+async function loadStations(): Promise<Station[]> {
+  if (!stationsCache) {
+    const response = await fetch(new URL('../data/stations.json', import.meta.url));
+    if (!response.ok) {
+      throw new Error('Impossible de charger la liste des gares');
+    }
+    stationsCache = response.json();
+  }
+  return stationsCache;
+}
 
 // format de la requête pour un trajet
 type RouteRequest = {
@@ -86,6 +99,7 @@ export async function fetchStats(query: StatsQuery = {}): Promise<StatsResponse>
 }
 
 // pour obtenir la liste des stations disponibles
-export function listStations() {
+export async function listStations() {
+  const stations = await loadStations();
   return stations.map((station) => station.shortName);
 }

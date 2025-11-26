@@ -6,7 +6,7 @@ function assert(condition: boolean, message: string) {
   }
 }
 
-const allStations = listStations();
+const allStations = await listStations();
 assert(allStations.length > 0, 'Station list should not be empty');
 assert(allStations.includes('MX'), 'MX station should be available');
 
