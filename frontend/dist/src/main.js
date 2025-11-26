@@ -1,5 +1,5 @@
 import { createRoute, fetchDistance, fetchStats, listStations } from './api.js';
-const stations = listStations();
+let stations = [];
 const routeForm = document.getElementById('route-form');
 const fromInput = document.getElementById('from');
 const toInput = document.getElementById('to');
@@ -88,8 +88,9 @@ async function loadStats() {
     renderStats(stats.items);
 }
 async function bootstrap() {
-    populateOptions();
     try {
+        stations = await listStations();
+        populateOptions();
         await loadStats();
     }
     catch (error) {

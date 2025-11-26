@@ -2,7 +2,7 @@ import { createRoute, fetchDistance, fetchStats, listStations } from './api.js';
 
 type Message = { type: 'success' | 'error'; text: string } | null;
 
-const stations = listStations();
+let stations: string[] = [];
 
 const routeForm = document.getElementById('route-form') as HTMLFormElement;
 const fromInput = document.getElementById('from') as HTMLInputElement;
@@ -100,8 +100,9 @@ async function loadStats() {
 }
 
 async function bootstrap() {
-  populateOptions();
   try {
+    stations = await listStations();
+    populateOptions();
     await loadStats();
   } catch (error) {
     setMessage({ type: 'error', text: (error as Error).message });
