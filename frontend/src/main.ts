@@ -5,8 +5,9 @@ type Message = { type: 'success' | 'error'; text: string } | null;
 const stations = listStations();
 
 const routeForm = document.getElementById('route-form') as HTMLFormElement;
-const fromSelect = document.getElementById('from') as HTMLSelectElement;
-const toSelect = document.getElementById('to') as HTMLSelectElement;
+const fromInput = document.getElementById('from') as HTMLInputElement;
+const toInput = document.getElementById('to') as HTMLInputElement;
+const stationDataList = document.getElementById('stations-list') as HTMLDataListElement;
 const analyticInput = document.getElementById('analytic') as HTMLInputElement;
 const messageBox = document.getElementById('message') as HTMLDivElement;
 const statsContainer = document.getElementById('stats') as HTMLDivElement;
@@ -15,18 +16,12 @@ const fromDateInput = document.getElementById('from-date') as HTMLInputElement;
 const toDateInput = document.getElementById('to-date') as HTMLInputElement;
 const groupBySelect = document.getElementById('group-by') as HTMLSelectElement;
 
-// fonction pour peupler les options des selects de stations
+// fonction pour peupler les options de la liste de suggestions de stations
 function populateOptions() {
   stations.forEach((station) => {
-    const optionFrom = document.createElement('option');
-    optionFrom.value = station;
-    optionFrom.textContent = station;
-    fromSelect.appendChild(optionFrom);
-
-    const optionTo = document.createElement('option');
-    optionTo.value = station;
-    optionTo.textContent = station;
-    toSelect.appendChild(optionTo);
+    const option = document.createElement('option');
+    option.value = station;
+    stationDataList.appendChild(option);
   });
 }
 
@@ -67,8 +62,8 @@ routeForm?.addEventListener('submit', async (event) => {
   setMessage(null);
   try {
     const result = await createRoute({
-      fromStationId: fromSelect.value,
-      toStationId: toSelect.value,
+      fromStationId: fromInput.value.trim(),
+      toStationId: toInput.value.trim(),
       analyticCode: analyticInput.value,
     });
     setMessage({ type: 'success', text: `Distance calculée: ${result.distanceKm} km via ${result.path.join(' -> ')}` });
