@@ -17,7 +17,7 @@ docker compose up --build -d
 
 ### Backend
 
-- PHP 8 (serveur embarqué) sans dépendance externe.
+- PHP 8.4 .
 - Endpoints conformes au fichier `openapi.yml` :
   - `POST /api/v1/routes` : calcule le chemin le plus court via Dijkstra, enregistre le trajet.
   - `GET /api/v1/stats/distances` : agrège les distances par code analytique avec validation des paramètres (`from`, `to`, `groupBy`).
