@@ -4,13 +4,18 @@ namespace App\Service;
 use App\Infrastructure\RouteRepository;
 use DateTimeImmutable;
 
-//classe permettant de faire des statistiques (trajets) sur les routes
 class StatsService
 {
+    /**
+     * Injecte le dépôt où sont sauvegardés les trajets calculés.
+     */
     public function __construct(private RouteRepository $repository)
     {
     }
 
+    /**
+     * Agrège les trajets par période et par code analytique.
+     */
     public function aggregate(?DateTimeImmutable $from = null, ?DateTimeImmutable $to = null, string $groupBy = 'none'): array
     {
         $routes = $this->repository->all();
@@ -45,6 +50,9 @@ class StatsService
         }, $buckets));
     }
 
+    /**
+     * Génère la clé de regroupement temporelle selon la granularité demandée.
+     */
     private function groupKey(DateTimeImmutable $date, string $groupBy): string
     {
         return match ($groupBy) {

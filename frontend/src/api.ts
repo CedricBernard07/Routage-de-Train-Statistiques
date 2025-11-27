@@ -2,6 +2,7 @@ type Station = { shortName: string };
 
 let stationsCache: Promise<Station[]> | null = null;
 
+// Charge le catalogue des gares locales en mémoire et le réutilise via un cache simple
 async function loadStations(): Promise<Station[]> {
   if (!stationsCache) {
     const response = await fetch(new URL('../data/stations.json', import.meta.url));
@@ -53,7 +54,7 @@ type StatsResponse = {
   items: { analyticCode: string; totalDistanceKm: number; group?: string | null }[];
 };
 
-// adresse de l'API backend
+// Adresse de l'API backend utilisée pour toutes les requêtes réseau
 const API_BASE = 'http://localhost:8080/api/v1';
 const DEFAULT_ANALYTIC_CODE = 'STANDARD';
 

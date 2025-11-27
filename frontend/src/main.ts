@@ -16,7 +16,7 @@ const fromDateInput = document.getElementById('from-date') as HTMLInputElement;
 const toDateInput = document.getElementById('to-date') as HTMLInputElement;
 const groupBySelect = document.getElementById('group-by') as HTMLSelectElement;
 
-// fonction pour peupler les options de la liste de suggestions de stations
+// Alimente la datalist avec les gares disponibles pour éviter de saisir un nom inconnu
 function populateOptions() {
   stations.forEach((station) => {
     const option = document.createElement('option');
@@ -25,7 +25,7 @@ function populateOptions() {
   });
 }
 
-// fonction pour afficher les contenus du message
+// Centralise l'affichage des messages d'erreur ou de succès dans le bandeau dédié
 function setMessage(message: Message) {
   if (!message) {
     messageBox.textContent = '';
@@ -46,7 +46,7 @@ function renderDistance(distanceKm: number, path: string[]) {
   distanceBox.append(distance, itinerary);
 }
 
-// fonction pour afficher les statistiques
+// Construit dynamiquement le tableau des statistiques de distance
 function renderStats(items: { analyticCode: string; totalDistanceKm: number; group?: string | null }[]) {
   statsContainer.innerHTML = '';
   if (items.length === 0) {
@@ -89,6 +89,7 @@ statsForm?.addEventListener('submit', async (event) => {
   await loadStats();
 });
 
+// Récupère les filtres sélectionnés et déclenche le calcul des statistiques
 async function loadStats() {
   const params = {
     from: fromDateInput.value || undefined,
@@ -99,6 +100,7 @@ async function loadStats() {
   renderStats(stats.items);
 }
 
+// Initialisation : charge les gares puis les statistiques afin d'afficher une page complète
 async function bootstrap() {
   try {
     stations = await listStations();
