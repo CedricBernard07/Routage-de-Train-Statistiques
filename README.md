@@ -1,3 +1,54 @@
+## Solution livrée
+
+Une implémentation est fournie dans ce dépôt avec un backend PHP autonome et un frontend TypeScript. Elle calcule les itinéraires les plus courts (Dijkstra) et expose des statistiques filtrables par date et groupement.
+
+### Démarrage rapide
+
+1. Construire et lancer les conteneurs :
+
+```bash
+docker compose up --build -d
+```
+
+2. Points d'accès :
+   - Frontend : http://localhost:4173
+   - API : http://localhost:8080/api/v1
+  
+
+### Backend
+
+- PHP 8 (serveur embarqué) sans dépendance externe.
+- Endpoints conformes au fichier `openapi.yml` :
+  - `POST /api/v1/routes` : calcule le chemin le plus court via Dijkstra, enregistre le trajet.
+  - `GET /api/v1/stats/distances` : agrège les distances par code analytique avec validation des paramètres (`from`, `to`, `groupBy`).
+- Sources : `backend/src`, point d'entrée : `backend/public/index.php`.
+
+#### Tests backend
+
+```bash
+php backend/tests/run.php
+```
+
+### Frontend
+
+- TypeScript compilé en modules ES (pas de dépendances externes).
+- Formulaire de calcul de trajet + tableau de statistiques avec filtres de date et groupement.
+- Sources : `frontend/src`, page statique : `frontend/index.html`.
+
+#### Compilation
+
+```bash
+(cd frontend && tsc)
+```
+
+#### Tests frontend
+
+```bash
+node dist/tests/api.test.js
+```
+
+# CONSIGNES
+
 # 🚆 Défi Full stack - Routage de Train & Statistiques
 test
 Bienvenue dans notre défi technique !  
@@ -141,55 +192,3 @@ Tu es libre d’utiliser les outils qui te semblent les plus adaptés pour réal
 Nous avons hâte de découvrir ta solution et de voir comment tu abordes ce défi.  
 Bonne chance, et surtout amuse-toi en codant !
 
-## Solution livrée
-
-Une implémentation minimale est fournie dans ce dépôt avec un backend PHP autonome et un frontend TypeScript. Elle calcule les itinéraires les plus courts (Dijkstra) et expose des statistiques filtrables par date et groupement.
-
-### Démarrage rapide
-
-1. Construire et lancer les conteneurs :
-
-```bash
-docker compose up --build -d
-```
-
-2. Points d'accès :
-   - API : http://localhost:8080/api/v1
-   - Frontend statique : http://localhost:4173
-
-### Backend
-
-- PHP 8 (serveur embarqué) sans dépendance externe.
-- Endpoints conformes au fichier `openapi.yml` :
-  - `POST /api/v1/routes` : calcule le chemin le plus court via Dijkstra, enregistre le trajet.
-  - `GET /api/v1/stats/distances` : agrège les distances par code analytique avec validation des paramètres (`from`, `to`, `groupBy`).
-- Sources : `backend/src`, point d'entrée : `backend/public/index.php`.
-
-#### Tests backend
-
-```bash
-php backend/tests/run.php
-```
-
-### Frontend
-
-- TypeScript compilé en modules ES (pas de dépendances externes).
-- Formulaire de calcul de trajet + tableau de statistiques avec filtres de date et groupement.
-- Sources : `frontend/src`, page statique : `frontend/index.html`.
-
-#### Compilation
-
-```bash
-(cd frontend && tsc)
-```
-
-#### Tests frontend
-
-```bash
-node dist/tests/api.test.js
-```
-
-### Hypothèses documentées
-
-- L’image Docker PHP utilisée est `php:8.3-cli` (8.4 n’était pas disponible dans l’environnement au moment du développement).
-- Les tests utilisent des scripts maison (PhpUnit/Vitest non installables hors-ligne).
